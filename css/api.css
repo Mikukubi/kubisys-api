@@ -1,0 +1,186 @@
+@font-face {
+    font-family: 'Droid Sans';
+    src: url('DroidSans-webfont.eot');
+    src: url('DroidSans-webfont.eot?#iefix') format('embedded-opentype'),
+    url('DroidSans-webfont.woff') format('woff'),
+    url('DroidSans-webfont.ttf') format('truetype'),
+    url('DroidSans-webfont.svg#droid_sansregular') format('svg');
+}
+
+@font-face {
+    font-family: 'Droid Sans';
+    src: url('DroidSans-Bold-webfont.eot');
+    src: url('DroidSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+    url('DroidSans-Bold-webfont.woff') format('woff'),
+    url('DroidSans-Bold-webfont.ttf') format('truetype'),
+    url('DroidSans-Bold-webfont.svg#droid_sansbold') format('svg');
+    font-weight: bold;
+}
+
+
+body {
+    font-family: 'Droid Sans';
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+
+#nav {
+    width: 200px;
+    background: #eee;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
+    border-right: 1px solid #999;
+}
+
+#content {
+    left: 201px;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    box-sizing: border-box;
+    position: absolute;
+    overflow: auto;
+}
+
+.navsection {
+    padding: 10px 0 10px 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.navsection p {
+    margin: 0;
+}
+
+.navsubsection {
+    padding-left: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#nav a, #nav a:visited {
+    text-decoration: none;
+    color: #333;
+}
+
+#nav a:hover {
+    color: #666;
+}
+
+#nav a:active {
+    color: #aaa;
+}
+
+.main {
+    padding: 0 10px;
+    width: 490px;
+    display: inline-block;
+    float: left;
+}
+
+.side {
+    display: inline-block;
+    margin-left: 500px;
+    position: absolute;
+    left: 0;
+}
+
+.section {
+    clear: both;
+}
+
+h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0 10px;
+}
+
+h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 20px 0 10px;
+}
+
+h3 {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+td.attr-name {
+    font-weight: bold;
+    vertical-align: bottom;
+}
+
+td.attr-type {
+    vertical-align: top;
+}
+
+td.attr-name, td.attr-type {
+    text-align: right;
+    width: 150px;
+}
+
+td.attr-def {
+    vertical-align: top;
+    padding-left: 10px;
+    width: 320px;
+}
+
+td.attr-def, td.attr-name {
+    padding-top: 5px;
+}
+
+td.attr-def, td.attr-type {
+    border-bottom: 1px solid #999;
+    padding-bottom: 5px;
+}
+
+td.attr-type span, td.attr-def span {
+    font-weight: bold;
+    color: #339;
+}
+
+td.attr-type b {
+    font-weight: bold;
+    color: #e47800;
+}
+
+td.attr-type a, td.attr-type a:visited {
+    font-weight: bold;
+    color: #393;
+    text-decoration: none;
+}
+
+td.attr-type a:hover {
+    color: #999;
+}
+
+td.attr-type a:active {
+    color: #000;
+}
+
+div.code, div.code-json {
+    font-family: Consolas;
+    padding: 5px;
+    background: #222;
+    white-space: nowrap;
+    color: #fff;
+}
+
+span.json-key {
+    color: #ed7D00;
+}
+
+span.json-token {
+    color: #77bcd7;
+}
