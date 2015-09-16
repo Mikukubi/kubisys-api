@@ -16,9 +16,9 @@
             <p><a href="#read-domain">Read domain</a></p>
             <p><a href="#update-domain">Update domain</a></p>
             <p><a href="#discover-domain">Discover domain</a></p>
-            <p><a href="#delete-domain">Delete domain</a></p>
             <p><a href="#list-domains">List domains</a></p>
             <p><a href="#list-domain-servers">List domain servers</a></p>
+            <p><a href="#delete-domain">Delete domain</a></p>
         </div>
     </div>
 </div>
@@ -197,19 +197,138 @@ attribute_table($table);
     "ldap_credential": {
         "id": 12,
         "domain": "acme",
-        "username": "svcacme"
+        "username": "svc_acme"
     },
     "winexe_credential": {
         "id": 12,
         "domain": "acme",
-        "username": "svcacme"
+        "username": "svc_acme"
     },
     "smb_credential": {
         "id": 12,
         "domain": "acme",
-        "username": "svcacme"
+        "username": "svc_acme"
     },
     "discovered_at": null,
+    "created_at": 1442346381,
+    "updated_at": 1442346381
+}
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <div class="main">
+        <h2 id="update-domain">Update domain</h2>
+        <p>Updating a domain is blah blah blah</p>
+<?php
+$table = array(array("name" => "id",
+                     "text" => "ID of the domain object. This argument is passed via the URL.",
+                     "type" => array("required" => 1, "type" => "int")),
+               array("name" => "name",
+                     "text" => "Fully qualified domain name. Returns an error if a domain with the name provided already exists.",
+                     "type" => array("optional" => 1, "type" => "string")),
+               array("name" => "dc_ip",
+                     "text" => "IP of a domain controller on the domain. Returns an error if the IP is formatted incorrectly.",
+                     "type" => array("optional" => 1, "type" => "string")),
+               array("name" => "ldap_credential",
+                     "text" => "ID of the credential object that will be applied to LDAP queries. Returns an error if the ID doesn't exist.",
+                     "type" => array("optional" => 1, "type" => "int")),
+               array("name" => "winexe_credential",
+                     "text" => "ID of the credential object that will be applied to servers in this domain for remote executions. Returns an error if the ID doesn't exist.",
+                     "type" => array("optional" => 1, "type" => "int")),
+               array("name" => "smb_credential",
+                     "text" => "ID of the credential object that will be applied to servers in this domain for SMB connections. Returns an error if the ID doesn't exist.",
+                     "type" => array("optional" => 1, "type" => "int")),
+               array("name" => "filter",
+                     "text" => "Filter that will be applied to the LDAP query when the domain is discovered.",
+                     "type" => array("optional" => 1, "type" => "string")));
+attribute_table($table);
+?>
+        <h3>Returns</h3>
+        <p>Returns the modified domain object if the update was successful. Returns an error otherwise.
+        </div>
+        <div class="side">
+            <h3>Definition</h3>
+            <div class="code"><span class="json-key">POST</span> http://<span class="json-token">kubisys_ip</span>/api/domains/<span class="json-token">domain.id</span></div>
+            <h3>Example request</h3>
+            <div class="code"><span class="json-key">POST</span> http://<span class="json-token">kubisys_ip</span>/api/domains/23</div>
+            <div class="code-json">
+{
+    "name": "acme2.com",
+    "dc_ip": "172.16.77.7",
+    "ldap_credential": 23
+}
+            </div>
+            <h3>Example response</h3>
+            <div class="code-json">
+{
+    "id": 23,
+    "name": "acme2.com",
+    "dc_ip": "172.16.77.7",
+    "filter": "",
+    "ldap_credential": {
+        "id": 23,
+        "domain": "acme",
+        "username": "svc_ldap"
+    },
+    "winexe_credential": {
+        "id": 12,
+        "domain": "acme",
+        "username": "svc_acme"
+    },
+    "smb_credential": {
+        "id": 12,
+        "domain": "acme",
+        "username": "svc_acme"
+    },
+    "discovered_at": null,
+    "created_at": 1442346381,
+    "updated_at": 1442399999
+}
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <div class="main">
+            <h2 id="discover-domain">Discover domain</h2>
+            <p>Discovering a domain is blah blah blah</p>
+<?php
+$table = array(array("name" => "id",
+                     "text" => "ID of the domain object. This argument is passed via the URL.",
+                     "type" => array("required" => 1, "type" => "int")));
+attribute_table($table);
+?>
+            <h3>Returns</h3>
+            <p>Returns the domain object associated with the ID provided if the discover process was successful. Returns an error otherwise.<p>
+        </div>
+        <div class="side">
+            <h3>Definition</h3>
+            <div class="code"><span class="json-key">POST</span> http://<span class="json-token">kubisys_ip</span>/api/domains/<span class="json-token">domain.id</span>/discover</div>
+            <h3>Example request</h3>
+            <div class="code"><span class="json-key">POST</span> http://<span class="json-token">kubisys_ip</span>/api/domains/23/discover</div>
+            <h3>Example response</h3>
+            <div class="code-json">
+{
+    "id": 23,
+    "name": "acme.com",
+    "dc_ip": "172.16.99.9",
+    "filter": "",
+    "ldap_credential": {
+        "id": 12,
+        "domain": "acme",
+        "username": "svc_acme"
+    },
+    "winexe_credential": {
+        "id": 12,
+        "domain": "acme",
+        "username": "svc_acme"
+    },
+    "smb_credential": {
+        "id": 12,
+        "domain": "acme",
+        "username": "svc_acme"
+    },
+    "discovered_at": 1442399999,
     "created_at": 1442346381,
     "updated_at": 1442346381
 }
