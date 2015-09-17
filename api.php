@@ -51,7 +51,7 @@ require 'api_functions.php';
     Credential object that is applied to servers in this domain for SMB connections.
 
 #discovered_at timestamp
-    When the domain was last discovered. `null` if never discovered.
+    When the domain was last successfully discovered. `null` if never successfully discovered.
 
 #created_at timestamp
     When the domain was created.
@@ -92,6 +92,16 @@ require 'api_functions.php';
     </div>
     <div class="section">
         <div class="main">
+            <h2 id="list-domain">List domains</h2>
+            <p>Listing a domain is blah blah blah</p>
+            <h3>Returns</h3>
+            <p>TODO</p>
+        </div>
+        <div class="side">
+        </div>
+    </div>
+    <div class="section">
+        <div class="main">
             <h2 id="create-domain">Create domain</h2>
             <p>Creating a domain is blah blah blah</p>
                 <summary class="spec">
@@ -112,6 +122,7 @@ require 'api_functions.php';
 
 #filter string optional
     Filter that will be applied to the LDAP query when the domain is discovered.
+
 
     Default: `""`
                 </summary>
@@ -279,6 +290,16 @@ require 'api_functions.php';
     </div>
     <div class="section">
         <div class="main">
+            <h2 id="delete-domain">Delete domain</h2>
+            <p>Deleting a domain is blah blah blah</p>
+            <h3>Returns</h3>
+            <p>TODO</p>
+        </div>
+        <div class="side">
+        </div>
+    </div>
+    <div class="section">
+        <div class="main">
             <h2 id="discover-domain">Discover domain</h2>
             <p>Discovering a domain is blah blah blah</p>
                 <summary class="spec">
@@ -320,6 +341,16 @@ require 'api_functions.php';
     "updated_at": 1442346381
 }
             </div>
+        </div>
+    </div>
+    <div class="section">
+        <div class="main">
+            <h2 id="list-domain-servers">List domain servers</h2>
+            <p>Listing domain servers is blah blah blah</p>
+            <h3>Returns</h3>
+            <p>TODO</p>
+        </div>
+        <div class="side">
         </div>
     </div>
 </div>

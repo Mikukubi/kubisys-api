@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
 
-$internal_data_types = array('int', 'string', 'timestamp', 'datetime', 'float');
+$internal_data_types = array('int', 'string', 'timestamp', 'datetime', 'float', 'boolean');
 
 ##
 # Build labels for special strictions
@@ -99,6 +99,48 @@ function generate_toc($buffer) {
 }
 
 ##
+# Markup JSON so that it's pretty
+function markup_json($obj, $ind) {
+    $ret = '';
+    $new_ind = $ind . '&nbsp; ';
+    if (gettype($obj) == 'object') {
+        $ret .= "{<br/>\n";
+        $arr_obj = (array)$obj;
+        $keys = array_keys($arr_obj);
+        for ($i=0; $i<count($keys); $i++) {
+            $ret .= $new_ind . '<span class="json-key">"' . $keys[$i] . '"</span>: ';
+            if (gettype($arr_obj[$keys[$i]]) == "string") {
+                $ret .= '"' . $arr_obj[$keys[$i]] . '"';
+            } else if (gettype($arr_obj[$keys[$i]]) == 'NULL') {
+                $ret .= '<span class="json-token">null</span>';
+            } else if (gettype($arr_obj[$keys[$i]]) == 'object' || gettype($arr_obj[$keys[$i]]) == 'array') {
+                $ret .= markup_json($arr_obj[$keys[$i]], $new_ind);
+            } else {
+                $ret .= '<span class="json-token">' . $arr_obj[$keys[$i]] . '</span>';
+            }
+            $ret .= ($i < count($keys)-1) ? ",<br/>\n" : "<br/>\n";
+        }
+        $ret .= $ind . '}';
+    } else {
+        $ret .= "[<br/>\n";
+        for ($i=0; $i<count($obj); $i++) {
+            if (gettype($obj[$i]) == 'string') {
+                $ret .= $new_ind . '"' . $obj[$i] . '"';
+            } else if ($obj[$i] == 'NULL') {
+                $ret .= $new_ind . '<span class="json-token">null</span>';
+            } else if (gettype($obj[$i]) == 'object' || gettype($obj[$i]) == 'array') {
+                $ret .= $new_ind . markup_json($obj[$i], $new_ind);
+            } else {
+                $ret .= $new_ind . '<span class="json-token">' . $obj[$i] . '</span>';
+            }
+            $ret .= ($i < count($obj)-1) ? ",<br/>\n" : "<br/>\n";
+        }
+        $ret .= $ind . ']';
+    }
+    return $ret;
+}
+
+##
 # Parse web page, pick JSONs out, and do some fancy stuff
 function html_filter($buffer) {
     $new_buffer = preg_replace_callback(
@@ -112,6 +154,13 @@ function html_filter($buffer) {
         '!<div class="navsection">(.*?)</div>!s',
         function ($matches) use ($new_buffer) {
             return '<div class="navsection">' . generate_toc($new_buffer) . '</div>';
+        },
+        $new_buffer
+    );
+    $new_buffer = preg_replace_callback(
+        '!<div class="code-json">(.*?)</div>!s',
+        function ($matches) {
+            return '<div class="code-json">' . markup_json(json_decode($matches[1]), '') . "\n</div>";
         },
         $new_buffer
     );
