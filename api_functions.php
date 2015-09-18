@@ -100,42 +100,39 @@ function generate_toc($buffer) {
 
 ##
 # Markup JSON so that it's pretty
-function markup_json($obj, $ind) {
+function render_json($obj, $indent = '', $first_line_pos = 0) {
     $ret = '';
-    $new_ind = $ind . '&nbsp; ';
-    if (gettype($obj) == 'object') {
-        $ret .= "{<br/>\n";
-        $arr_obj = (array)$obj;
-        $keys = array_keys($arr_obj);
-        for ($i=0; $i<count($keys); $i++) {
-            $ret .= $new_ind . '<span class="json-key">"' . $keys[$i] . '"</span>: ';
-            if (gettype($arr_obj[$keys[$i]]) == "string") {
-                $ret .= '"' . $arr_obj[$keys[$i]] . '"';
-            } else if (gettype($arr_obj[$keys[$i]]) == 'NULL') {
-                $ret .= '<span class="json-token">null</span>';
-            } else if (gettype($arr_obj[$keys[$i]]) == 'object' || gettype($arr_obj[$keys[$i]]) == 'array') {
-                $ret .= markup_json($arr_obj[$keys[$i]], $new_ind);
-            } else {
-                $ret .= '<span class="json-token">' . $arr_obj[$keys[$i]] . '</span>';
+    $new_indent = $indent . '  ';
+    switch (gettype($obj)) {
+        case 'object':
+            $ret .= '{' . PHP_EOL;
+            $lastkey = end(array_keys(get_object_vars($obj)));
+            foreach ($obj as $key => $value) {
+                $ret .= sprintf('%s<span class="json-key">"%s"</span>: ', $new_indent, $key);
+                $ret .= render_json($value, $new_indent, strlen($new_indent) + strlen($key) + 4);
+                if ($key != $lastkey) $ret .= ',' . PHP_EOL;
             }
-            $ret .= ($i < count($keys)-1) ? ",<br/>\n" : "<br/>\n";
-        }
-        $ret .= $ind . '}';
-    } else {
-        $ret .= "[<br/>\n";
-        for ($i=0; $i<count($obj); $i++) {
-            if (gettype($obj[$i]) == 'string') {
-                $ret .= $new_ind . '"' . $obj[$i] . '"';
-            } else if ($obj[$i] == 'NULL') {
-                $ret .= $new_ind . '<span class="json-token">null</span>';
-            } else if (gettype($obj[$i]) == 'object' || gettype($obj[$i]) == 'array') {
-                $ret .= $new_ind . markup_json($obj[$i], $new_ind);
-            } else {
-                $ret .= $new_ind . '<span class="json-token">' . $obj[$i] . '</span>';
+            $ret .= PHP_EOL . $indent . '}';
+            break;
+        case 'array':
+            $ret .= '[' . PHP_EOL;
+            $lastkey = count($obj) - 1;
+            foreach ($obj as $key => $value) {
+                $ret .= $new_indent . render_json($value, $new_indent, 0);
+                if ($key != $lastkey) $ret .= ',' . PHP_EOL;
             }
-            $ret .= ($i < count($obj)-1) ? ",<br/>\n" : "<br/>\n";
-        }
-        $ret .= $ind . ']';
+            $ret .= PHP_EOL . $indent . ']';
+            break;
+        case 'string':
+            if ($first_line_pos > 0 && $first_line_pos + strlen($obj) > 78 && strlen($new_indent) + strlen($obj) < 80)
+                $ret = PHP_EOL . $new_indent;
+            $ret .= '"' . $obj . '"';
+            break;
+        case 'NULL':
+            $obj = 'null';
+        default:
+            $ret = sprintf('<span class="json-token">%s</span>', $obj);
+            break;
     }
     return $ret;
 }
@@ -160,7 +157,7 @@ function html_filter($buffer) {
     $new_buffer = preg_replace_callback(
         '!<div class="code-json">(.*?)</div>!s',
         function ($matches) {
-            return '<div class="code-json">' . markup_json(json_decode($matches[1]), '') . "\n</div>";
+            return '<div class="code-json">' . render_json(json_decode($matches[1])) . "\n</div>";
         },
         $new_buffer
     );

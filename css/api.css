@@ -173,7 +173,7 @@ div.code, div.code-json {
     font-family: Consolas;
     padding: 5px;
     background: #222;
-    white-space: nowrap;
+    white-space: pre;
     color: #fff;
 }
 
